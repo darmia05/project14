@@ -1,5 +1,5 @@
 // --- CONFIGURATION ---
-const PUBLIC_KEY = "C8M1B_1Bo5z2thMe6";  
+const PUBLIC_KEY = "C8MlB_1Bo5z2thMe6";  
 const SERVICE_ID = "service_cny07mr";
 const TEMPLATE_ID = "template_awcwn6i";
 
@@ -8,39 +8,40 @@ const TEMPLATE_ID = "template_awcwn6i";
 })();
 
 const mainContainer = document.getElementById('main-container');
-const whiteBox = document.getElementById('white-box'); // The Jail
 const successContainer = document.getElementById('success-container');
 const yesBtn = document.getElementById('yes-btn');
 const noBtn = document.getElementById('no-btn');
 
-// --- "NO" BUTTON LOGIC ---
+// --- "NO" BUTTON LOGIC (Reference: iamovi/button-will-react) ---
 const moveButton = () => {
-    // 1. Get dimensions of the White Box (The Jail)
-    const boxRect = whiteBox.getBoundingClientRect();
-    const btnRect = noBtn.getBoundingClientRect();
+    // 1. Get current viewport dimensions
+    // We subtract the button size to ensure it never goes off-screen
+    const maxX = window.innerWidth - noBtn.offsetWidth;
+    const maxY = window.innerHeight - noBtn.offsetHeight;
 
-    // 2. Calculate valid area INSIDE the white box
-    // We subtract the button size so it doesn't overflow the right/bottom
-    const maxX = boxRect.width - btnRect.width;
-    const maxY = boxRect.height - btnRect.height;
+    // 2. Generate random positions
+    // Math.random() gives 0.0 to 1.0, so we multiply by max available space
+    const randomX = Math.random() * maxX;
+    const randomY = Math.random() * maxY;
 
-    // 3. Generate random positions
-    const randomX = Math.floor(Math.random() * maxX);
-    const randomY = Math.floor(Math.random() * maxY);
-
-    // 4. Apply position
-    // We switch to absolute position relative to the white box
-    noBtn.style.position = 'absolute';
-    noBtn.style.left = randomX + 'px';
-    noBtn.style.top = randomY + 'px';
+    // 3. Apply the new position
+    // We switch to 'fixed' position so it is relative to the screen (viewport)
+    // This allows it to fly over any element
+    noBtn.style.position = 'fixed';
+    noBtn.style.left = `${randomX}px`;
+    noBtn.style.top = `${randomY}px`;
 };
 
-// Triggers
-noBtn.addEventListener('mouseenter', moveButton);
+// Trigger on hover (Desktop)
+noBtn.addEventListener('mouseover', moveButton);
+
+// Trigger on touch (Mobile) - Prevents tapping
 noBtn.addEventListener('touchstart', (e) => {
     e.preventDefault(); 
     moveButton();
 });
+
+// Trigger if they somehow manage to click it (Failsafe)
 noBtn.addEventListener('click', (e) => {
     e.preventDefault(); 
     moveButton();

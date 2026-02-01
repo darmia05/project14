@@ -1,10 +1,6 @@
-// REPLACE THESE WITH YOUR REAL KEYS FROM EMAILJS DASHBOARD
-const PUBLIC_KEY = "C8MlB_1Bo5z2thMe6";
-const SERVICE_ID = "service_cny07mr";
-const TEMPLATE_ID = "template_awcwn6i";
-
+// Initialize EmailJS with your public key
 (function() {
-    emailjs.init(PUBLIC_KEY);
+    emailjs.init("C8MlB_1Bo5z2thMe6");
 })();
 
 const mainContainer = document.getElementById('main-container');
@@ -12,66 +8,63 @@ const successContainer = document.getElementById('success-container');
 const yesBtn = document.getElementById('yes-btn');
 const noBtn = document.getElementById('no-btn');
 
-// --- THE "NO" BUTTON LOGIC (Strictly bounded) ---
+// --- THE "NO" BUTTON LOGIC (The Impossible Button) ---
 
+// Function to move the button to a random spot
 const moveButton = () => {
-    // 1. Get current viewport dimensions
-    const viewportWidth = window.innerWidth;
-    const viewportHeight = window.innerHeight;
+    // Get the current size of the browser window
+    const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
     
-    // 2. Get button dimensions
+    // Get button dimensions
     const btnWidth = noBtn.offsetWidth;
     const btnHeight = noBtn.offsetHeight;
 
-    // 3. Calculate strict boundaries (keep it 20px away from the edge)
-    // The max X position is the screen width minus the button width minus padding
-    const maxPosX = viewportWidth - btnWidth - 20;
-    const maxPosY = viewportHeight - btnHeight - 20;
+    // Calculate new random positions ensuring it stays on screen
+    // We subtract button size to keep it from overflowing the edge
+    const newX = Math.random() * (windowWidth - btnWidth - 50);
+    const newY = Math.random() * (windowHeight - btnHeight - 50);
 
-    // 4. Generate random positions within these strict bounds
-    // We use Math.max(0, ...) to ensure it never goes negative (off left/top)
-    const newX = Math.max(0, Math.floor(Math.random() * maxPosX));
-    const newY = Math.max(0, Math.floor(Math.random() * maxPosY));
-
-    // 5. Apply new position
-    noBtn.style.position = 'fixed';
+    // Apply new CSS styles to move it
+    noBtn.style.position = 'fixed'; // Switch to fixed positioning so it can fly anywhere
     noBtn.style.left = `${newX}px`;
     noBtn.style.top = `${newY}px`;
     
-    // Ensure it's clickable but tricky
-    noBtn.style.zIndex = "999"; 
+    // Makes it harder to catch by changing z-index subtly
+    noBtn.style.zIndex = "1"; 
 };
 
-// Events to trigger movement
+// Trigger movement on mouse hover (desktop)
 noBtn.addEventListener('mouseover', moveButton);
-noBtn.addEventListener('touchstart', (e) => {
-    e.preventDefault(); // Prevent clicking on mobile
-    moveButton();
-});
-noBtn.addEventListener('click', (e) => {
-    e.preventDefault(); // Just in case they manage to click it
-    moveButton();
-});
+// Trigger movement on touch start (mobile) before they can actually tap it
+noBtn.addEventListener('touchstart', moveButton);
 
-// --- THE "YES" BUTTON LOGIC ---
+
+// --- THE "YES" BUTTON LOGIC (Email & Success Screen) ---
 
 yesBtn.addEventListener('click', () => {
+    // 1. Change UI immediately so she sees something happened
     yesBtn.innerText = "Sending Love... 💕";
     
+    // 2. Prepare parameters for the email (optional, but good practice)
     const templateParams = {
         to_name: "Danny",
-        message: "Isabella said YES!"
+        message: "She clicked Yes!"
     };
 
-    emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams)
+    // 3. Send the email using EmailJS
+    emailjs.send('service_cny07mr', 'template_awcwn6i', templateParams)
         .then(function(response) {
             console.log('SUCCESS!', response.status, response.text);
+            // Hide proposal, show success screen upon successful email sending
             mainContainer.classList.add('hidden');
             successContainer.classList.remove('hidden');
         }, function(error) {
             console.log('FAILED...', error);
-            // Show success anyway
+            // Even if the email fails technically, still show her the success screen
+            // because she clicked yes!
             mainContainer.classList.add('hidden');
             successContainer.classList.remove('hidden');
+            alert("She said yes, but the email notification failed to send. Check console.");
         });
 });

@@ -1,3 +1,4 @@
+/* Import a cute font from Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@300;400;600&display=swap');
 
 :root {
@@ -15,18 +16,18 @@
 
 body {
     font-family: 'Poppins', sans-serif;
+    /* Setting the background image you downloaded */
     background: url('../images/background.jpg') no-repeat center center/cover;
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden; 
+    overflow: hidden; /* Prevents scrollbars when no button moves */
 }
 
 .container {
-    width: 95%;
-    /* INCREASED: Made the box wider to fit larger images */
-    max-width: 850px; 
+    width: 90%;
+    max-width: 600px;
     padding: 20px;
     animation: fadeIn 1.5s ease-in-out;
 }
@@ -35,28 +36,28 @@ body {
     display: none !important;
 }
 
+/* The main white card */
 .content-box {
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(255, 255, 255, 0.92);
     backdrop-filter: blur(10px);
-    padding: 40px 20px;
+    padding: 40px 30px;
     border-radius: 30px;
     box-shadow: 0 15px 35px rgba(199, 21, 133, 0.3);
     text-align: center;
-    border: 3px solid var(--soft-pink);
+    border: 2px solid var(--soft-pink);
 }
 
 h1 {
     font-family: 'Dancing Script', cursive;
     color: var(--dark-pink);
-    font-size: 3.5rem;
+    font-size: 3rem;
     margin-bottom: 10px;
 }
 
 .intro-text {
     color: var(--text-color);
     margin-bottom: 20px;
-    font-size: 1.3rem;
-    font-weight: 500;
+    font-size: 1.1rem;
 }
 
 /* Interest collage styling */
@@ -64,18 +65,16 @@ h1 {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    align-items: center;
-    gap: 20px; /* More space between items */
-    margin: 30px 0;
+    gap: 15px;
+    margin: 25px 0;
 }
 
 .interest-item {
-    /* INCREASED: Significantly larger circles */
-    width: 130px; 
-    height: 130px;
+    width: 70px;
+    height: 70px;
     background: var(--soft-pink);
     border-radius: 50%;
-    padding: 15px;
+    padding: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -84,25 +83,23 @@ h1 {
 }
 
 .interest-item:hover {
-    transform: scale(1.15) rotate(5deg);
+    transform: scale(1.1) rotate(5deg);
 }
 
 .interest-item img {
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
 }
 
+/* Making the center image slightly bigger */
 .interest-item.central {
-    /* INCREASED: The middle one is even bigger */
-    width: 150px;
-    height: 150px;
-    border: 3px solid var(--primary-pink);
+    width: 85px;
+    height: 85px;
 }
 
 .final-text {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     color: var(--text-color);
     margin-top: 20px;
 }
@@ -110,36 +107,36 @@ h1 {
 .the-question {
     font-family: 'Dancing Script', cursive;
     color: var(--primary-pink);
-    font-size: 3.5rem;
+    font-size: 2.8rem;
     margin: 20px 0 30px 0;
 }
 
+/* Buttons */
 .button-container {
     display: flex;
     justify-content: center;
-    gap: 40px;
+    gap: 30px;
     margin-top: 30px;
-    position: relative;
-    min-height: 60px;
+    position: relative; /* Necessary for the No button movement */
+    height: 60px; /* Fixed height so the no button can escape */
 }
 
 button {
-    padding: 15px 45px;
+    padding: 12px 35px;
     border: none;
     border-radius: 50px;
     font-family: 'Poppins', sans-serif;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
-    white-space: nowrap;
 }
 
 #yes-btn {
     background-color: var(--primary-pink);
     color: white;
     box-shadow: 0 5px 20px rgba(255, 107, 174, 0.4);
-    z-index: 100; /* Ensure YES is always on top */
+    z-index: 10;
 }
 
 #yes-btn:hover {
@@ -150,29 +147,28 @@ button {
 #no-btn {
     background-color: #e0e0e0;
     color: #777;
-    position: relative; 
-    z-index: 90;
+    position: relative; /* Starts relative, becomes absolute when moved */
 }
 
+/* Success Screen */
 .success-gif {
     max-width: 100%;
-    max-height: 300px;
     border-radius: 20px;
     margin: 20px 0;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
 }
 
+/* Animations */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* Mobile Adjustments */
-@media (max-width: 600px) {
-    h1 { font-size: 2.8rem; }
-    .the-question { font-size: 2.5rem; }
-    /* Slightly smaller images on mobile so they fit on screen */
-    .interest-item { width: 90px; height: 90px; }
-    .interest-item.central { width: 110px; height: 110px; }
-    .container { width: 95%; padding: 10px; }
-    button { padding: 12px 30px; font-size: 1.1rem; }
+/* Mobile responsiveness */
+@media (max-width: 480px) {
+    h1 { font-size: 2.5rem; }
+    .the-question { font-size: 2.2rem; }
+    .interest-item { width: 60px; height: 60px; }
+    .button-container { gap: 15px; }
+    button { padding: 10px 25px; font-size: 1rem; }
 }

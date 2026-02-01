@@ -38,7 +38,9 @@ body {
     display: none !important;
 }
 
+/* CHANGED: Added position relative so the No button is trapped inside here */
 .content-box {
+    position: relative; 
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
     padding: 40px 20px;
@@ -46,6 +48,7 @@ body {
     box-shadow: 0 15px 35px rgba(199, 21, 133, 0.3);
     text-align: center;
     border: 3px solid var(--soft-pink);
+    overflow: hidden; /* Double safety: cuts off anything trying to leave */
 }
 
 h1 {
@@ -137,7 +140,9 @@ button {
     background-color: var(--primary-pink);
     color: white;
     box-shadow: 0 5px 20px rgba(255, 107, 174, 0.4);
-    z-index: 100;
+    /* High Z-index ensures YES is always on top of NO if they overlap */
+    z-index: 1000;
+    position: relative;
     transition: all 0.3s ease;
 }
 
@@ -150,9 +155,8 @@ button {
     background-color: #e0e0e0;
     color: #777;
     position: relative; 
-    z-index: 9999;
-    
-    /* ADDED: Smooth movement logic you requested */
+    z-index: 100;
+    /* Smooth movement */
     transition: left 0.15s ease, top 0.15s ease;
 }
 

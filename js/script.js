@@ -1,5 +1,5 @@
 // --- CONFIGURATION ---
-const PUBLIC_KEY = "C8MIB_1Bo5z2thMe6";  
+const PUBLIC_KEY = "C8MlB_1Bo5z2thMe6";  
 const SERVICE_ID = "service_cny07mr";
 const TEMPLATE_ID = "template_awcwn6i";
 

@@ -1,5 +1,5 @@
-// REPLACE THESE WITH YOUR REAL KEYS FROM EMAILJS DASHBOARD
-const PUBLIC_KEY = "C8MlB_1Bo5z2thMe6";
+// --- CONFIGURATION ---
+const PUBLIC_KEY = "C8MIB_1Bo5z2thMe6";  
 const SERVICE_ID = "service_cny07mr";
 const TEMPLATE_ID = "template_awcwn6i";
 
@@ -12,8 +12,7 @@ const successContainer = document.getElementById('success-container');
 const yesBtn = document.getElementById('yes-btn');
 const noBtn = document.getElementById('no-btn');
 
-// --- THE "NO" BUTTON LOGIC (Strictly bounded) ---
-
+// --- "NO" BUTTON LOGIC ---
 const moveButton = () => {
     // 1. Get current viewport dimensions
     const viewportWidth = window.innerWidth;
@@ -23,38 +22,37 @@ const moveButton = () => {
     const btnWidth = noBtn.offsetWidth;
     const btnHeight = noBtn.offsetHeight;
 
-    // 3. Calculate strict boundaries (keep it 20px away from the edge)
-    // The max X position is the screen width minus the button width minus padding
-    const maxPosX = viewportWidth - btnWidth - 20;
-    const maxPosY = viewportHeight - btnHeight - 20;
+    // 3. Calculate strictly safe boundaries 
+    // We create a safety padding of 80px so it never touches the edge
+    const maxPosX = viewportWidth - btnWidth - 80;
+    const maxPosY = viewportHeight - btnHeight - 80;
 
     // 4. Generate random positions within these strict bounds
-    // We use Math.max(0, ...) to ensure it never goes negative (off left/top)
-    const newX = Math.max(0, Math.floor(Math.random() * maxPosX));
-    const newY = Math.max(0, Math.floor(Math.random() * maxPosY));
+    // Math.max ensures we don't get negative numbers
+    const newX = Math.max(20, Math.floor(Math.random() * maxPosX));
+    const newY = Math.max(20, Math.floor(Math.random() * maxPosY));
 
     // 5. Apply new position
     noBtn.style.position = 'fixed';
     noBtn.style.left = `${newX}px`;
     noBtn.style.top = `${newY}px`;
     
-    // Ensure it's clickable but tricky
-    noBtn.style.zIndex = "999"; 
+    // Ensure it's visually under the Yes button if they overlap
+    noBtn.style.zIndex = "90"; 
 };
 
 // Events to trigger movement
 noBtn.addEventListener('mouseover', moveButton);
 noBtn.addEventListener('touchstart', (e) => {
-    e.preventDefault(); // Prevent clicking on mobile
+    e.preventDefault(); // Stop mobile click
     moveButton();
 });
 noBtn.addEventListener('click', (e) => {
-    e.preventDefault(); // Just in case they manage to click it
+    e.preventDefault(); // Stop desktop click
     moveButton();
 });
 
-// --- THE "YES" BUTTON LOGIC ---
-
+// --- "YES" BUTTON LOGIC ---
 yesBtn.addEventListener('click', () => {
     yesBtn.innerText = "Sending Love... 💕";
     
@@ -70,7 +68,7 @@ yesBtn.addEventListener('click', () => {
             successContainer.classList.remove('hidden');
         }, function(error) {
             console.log('FAILED...', error);
-            // Show success anyway
+            // Even if email fails, show success screen so she isn't confused
             mainContainer.classList.add('hidden');
             successContainer.classList.remove('hidden');
         });

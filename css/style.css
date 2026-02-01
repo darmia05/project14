@@ -15,8 +15,10 @@
 
 body {
     font-family: 'Poppins', sans-serif;
-    background: url('../images/background.jpg') no-repeat center center/cover;
+    background: url('../images/background.jpg') no-repeat center center;
+    background-size: 100% 100%; 
     height: 100vh;
+    width: 100vw;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -25,61 +27,65 @@ body {
 
 .container {
     width: 95%;
-    /* INCREASED: Made the box wider to fit larger images */
-    max-width: 850px; 
+    /* INCREASED: Much wider box */
+    max-width: 1100px; 
     padding: 20px;
     animation: fadeIn 1.5s ease-in-out;
+    position: relative;
+    z-index: 10;
 }
 
 .hidden {
     display: none !important;
 }
 
+/* THE JAIL: Position relative keeps the No button inside this box */
 .content-box {
+    position: relative; 
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
-    padding: 40px 20px;
-    border-radius: 30px;
+    padding: 50px 30px;
+    border-radius: 40px;
     box-shadow: 0 15px 35px rgba(199, 21, 133, 0.3);
     text-align: center;
     border: 3px solid var(--soft-pink);
+    /* No overflow hidden here, so images don't get cut off if they wiggle */
 }
 
 h1 {
     font-family: 'Dancing Script', cursive;
     color: var(--dark-pink);
-    font-size: 3.5rem;
-    margin-bottom: 10px;
+    font-size: 4.5rem; /* Bigger Title */
+    margin-bottom: 15px;
 }
 
 .intro-text {
     color: var(--text-color);
-    margin-bottom: 20px;
-    font-size: 1.3rem;
+    margin-bottom: 30px;
+    font-size: 1.5rem; /* Bigger Text */
     font-weight: 500;
 }
 
-/* Interest collage styling */
 .interests-collage {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    gap: 20px; /* More space between items */
-    margin: 30px 0;
+    gap: 30px; /* More space */
+    margin: 40px 0;
 }
 
 .interest-item {
-    /* INCREASED: Significantly larger circles */
-    width: 130px; 
-    height: 130px;
+    /* INCREASED: Much bigger images */
+    width: 180px; 
+    height: 180px;
     background: var(--soft-pink);
     border-radius: 50%;
-    padding: 15px;
+    padding: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
     transition: transform 0.3s ease;
 }
 
@@ -95,43 +101,42 @@ h1 {
 }
 
 .interest-item.central {
-    /* INCREASED: The middle one is even bigger */
-    width: 150px;
-    height: 150px;
-    border: 3px solid var(--primary-pink);
+    /* The central image is huge now */
+    width: 220px; 
+    height: 220px;
+    z-index: 5;
 }
 
 .final-text {
-    font-size: 1.3rem;
+    font-size: 1.5rem;
     color: var(--text-color);
-    margin-top: 20px;
+    margin-top: 30px;
 }
 
 .the-question {
     font-family: 'Dancing Script', cursive;
     color: var(--primary-pink);
-    font-size: 3.5rem;
-    margin: 20px 0 30px 0;
+    font-size: 4rem;
+    margin: 30px 0 40px 0;
 }
 
 .button-container {
     display: flex;
     justify-content: center;
-    gap: 40px;
-    margin-top: 30px;
+    gap: 50px;
+    margin-top: 20px;
     position: relative;
-    min-height: 60px;
+    min-height: 80px;
 }
 
 button {
-    padding: 15px 45px;
+    padding: 20px 60px; /* Bigger buttons */
     border: none;
-    border-radius: 50px;
+    border-radius: 60px;
     font-family: 'Poppins', sans-serif;
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s ease;
     white-space: nowrap;
 }
 
@@ -139,7 +144,9 @@ button {
     background-color: var(--primary-pink);
     color: white;
     box-shadow: 0 5px 20px rgba(255, 107, 174, 0.4);
-    z-index: 100; /* Ensure YES is always on top */
+    z-index: 100;
+    position: relative;
+    transition: all 0.3s ease;
 }
 
 #yes-btn:hover {
@@ -150,15 +157,17 @@ button {
 #no-btn {
     background-color: #e0e0e0;
     color: #777;
+    /* Keeps it next to YES initially, prevents overlap */
     position: relative; 
-    z-index: 90;
+    z-index: 50;
+    transition: left 0.2s ease, top 0.2s ease; 
 }
 
 .success-gif {
     max-width: 100%;
-    max-height: 300px;
-    border-radius: 20px;
-    margin: 20px 0;
+    max-height: 400px; /* Bigger GIF */
+    border-radius: 30px;
+    margin: 30px 0;
 }
 
 @keyframes fadeIn {
@@ -166,13 +175,11 @@ button {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* Mobile Adjustments */
-@media (max-width: 600px) {
-    h1 { font-size: 2.8rem; }
-    .the-question { font-size: 2.5rem; }
-    /* Slightly smaller images on mobile so they fit on screen */
-    .interest-item { width: 90px; height: 90px; }
-    .interest-item.central { width: 110px; height: 110px; }
+@media (max-width: 768px) {
+    h1 { font-size: 3rem; }
+    .the-question { font-size: 2.8rem; }
+    .interest-item { width: 110px; height: 110px; }
+    .interest-item.central { width: 140px; height: 140px; }
     .container { width: 95%; padding: 10px; }
-    button { padding: 12px 30px; font-size: 1.1rem; }
+    button { padding: 15px 35px; font-size: 1.2rem; }
 }

@@ -1,0 +1,174 @@
+/* Import a cute font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@300;400;600&display=swap');
+
+:root {
+    --primary-pink: #ff6bae;
+    --dark-pink: #c71585;
+    --soft-pink: #ffeaf4;
+    --text-color: #4a2c3f;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    /* Setting the background image you downloaded */
+    background: url('../images/background.jpg') no-repeat center center/cover;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Prevents scrollbars when no button moves */
+}
+
+.container {
+    width: 90%;
+    max-width: 600px;
+    padding: 20px;
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* The main white card */
+.content-box {
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(10px);
+    padding: 40px 30px;
+    border-radius: 30px;
+    box-shadow: 0 15px 35px rgba(199, 21, 133, 0.3);
+    text-align: center;
+    border: 2px solid var(--soft-pink);
+}
+
+h1 {
+    font-family: 'Dancing Script', cursive;
+    color: var(--dark-pink);
+    font-size: 3rem;
+    margin-bottom: 10px;
+}
+
+.intro-text {
+    color: var(--text-color);
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+}
+
+/* Interest collage styling */
+.interests-collage {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin: 25px 0;
+}
+
+.interest-item {
+    width: 70px;
+    height: 70px;
+    background: var(--soft-pink);
+    border-radius: 50%;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.interest-item:hover {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.interest-item img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+/* Making the center image slightly bigger */
+.interest-item.central {
+    width: 85px;
+    height: 85px;
+}
+
+.final-text {
+    font-size: 1.2rem;
+    color: var(--text-color);
+    margin-top: 20px;
+}
+
+.the-question {
+    font-family: 'Dancing Script', cursive;
+    color: var(--primary-pink);
+    font-size: 2.8rem;
+    margin: 20px 0 30px 0;
+}
+
+/* Buttons */
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 30px;
+    position: relative; /* Necessary for the No button movement */
+    height: 60px; /* Fixed height so the no button can escape */
+}
+
+button {
+    padding: 12px 35px;
+    border: none;
+    border-radius: 50px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#yes-btn {
+    background-color: var(--primary-pink);
+    color: white;
+    box-shadow: 0 5px 20px rgba(255, 107, 174, 0.4);
+    z-index: 10;
+}
+
+#yes-btn:hover {
+    transform: scale(1.05);
+    background-color: var(--dark-pink);
+}
+
+#no-btn {
+    background-color: #e0e0e0;
+    color: #777;
+    position: relative; /* Starts relative, becomes absolute when moved */
+}
+
+/* Success Screen */
+.success-gif {
+    max-width: 100%;
+    border-radius: 20px;
+    margin: 20px 0;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 480px) {
+    h1 { font-size: 2.5rem; }
+    .the-question { font-size: 2.2rem; }
+    .interest-item { width: 60px; height: 60px; }
+    .button-container { gap: 15px; }
+    button { padding: 10px 25px; font-size: 1rem; }
+}

@@ -15,7 +15,6 @@
 
 body {
     font-family: 'Poppins', sans-serif;
-    /* Forces image to fit exact screen size */
     background: url('../images/background.jpg') no-repeat center center;
     background-size: 100% 100%; 
     height: 100vh;
@@ -150,9 +149,11 @@ button {
 #no-btn {
     background-color: #e0e0e0;
     color: #777;
-    position: absolute; /* Starts absolute, JS switches to fixed */
-    /* Maximum Z-index to ensure it is ALWAYS on top */
-    z-index: 2147483647; 
+    position: relative; 
+    z-index: 9999;
+    
+    /* ADDED: Smooth movement logic you requested */
+    transition: left 0.15s ease, top 0.15s ease;
 }
 
 .success-gif {

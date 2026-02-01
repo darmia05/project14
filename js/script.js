@@ -12,50 +12,35 @@ const successContainer = document.getElementById('success-container');
 const yesBtn = document.getElementById('yes-btn');
 const noBtn = document.getElementById('no-btn');
 
-// --- "NO" BUTTON LOGIC (THE SAFE ZONE FIX) ---
+// --- "NO" BUTTON LOGIC ---
 const moveButton = () => {
-    // 1. Get current viewport dimensions
-    const viewportWidth = window.innerWidth;
-    const viewportHeight = window.innerHeight;
-    
-    // 2. Get button dimensions
-    const btnWidth = noBtn.offsetWidth;
-    const btnHeight = noBtn.offsetHeight;
+    // 1. Calculate the available area
+    // window.innerWidth - button width ensures the button never goes off the right edge
+    // window.innerHeight - button height ensures it never goes off the bottom
+    const maxX = window.innerWidth - noBtn.offsetWidth;
+    const maxY = window.innerHeight - noBtn.offsetHeight;
 
-    // 3. Define the "Safe Zone"
-    // We want the button to stay away from the edges by at least 100px
-    // This calculation finds the available space in the middle of the screen
-    const minX = 80; // Keep 80px away from left
-    const maxX = viewportWidth - btnWidth - 80; // Keep 80px away from right
-    
-    const minY = 80; // Keep 80px away from top
-    const maxY = viewportHeight - btnHeight - 80; // Keep 80px away from bottom
+    // 2. Generate random coordinates
+    const randomX = Math.random() * maxX;
+    const randomY = Math.random() * maxY;
 
-    // Safety check: If screen is super small, just wiggle slightly
-    const safeMaxX = Math.max(minX + 10, maxX);
-    const safeMaxY = Math.max(minY + 10, maxY);
-
-    // 4. Generate Random Position within Safe Zone
-    const randomX = Math.floor(Math.random() * (safeMaxX - minX + 1)) + minX;
-    const randomY = Math.floor(Math.random() * (safeMaxY - minY + 1)) + minY;
-
-    // 5. Apply new position
-    // We use 'fixed' so it is relative to the browser window, not the card
+    // 3. Apply the new position
+    // We switch to 'fixed' position so it can fly anywhere on the screen
     noBtn.style.position = 'fixed';
     noBtn.style.left = `${randomX}px`;
     noBtn.style.top = `${randomY}px`;
 };
 
-// Events to trigger movement
-noBtn.addEventListener('mouseover', moveButton);
+// Trigger on hover (Desktop)
+noBtn.addEventListener('mouseenter', moveButton);
 
-// For mobile: trigger on touch
+// Trigger on touch (Mobile)
 noBtn.addEventListener('touchstart', (e) => {
     e.preventDefault(); 
     moveButton();
 });
 
-// Just in case they are fast enough to click
+// Trigger if they somehow manage to click it
 noBtn.addEventListener('click', (e) => {
     e.preventDefault(); 
     moveButton();

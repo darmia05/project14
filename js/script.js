@@ -12,36 +12,38 @@ const successContainer = document.getElementById('success-container');
 const yesBtn = document.getElementById('yes-btn');
 const noBtn = document.getElementById('no-btn');
 
-// --- "NO" BUTTON LOGIC (Reference: iamovi/button-will-react) ---
+// --- "NO" BUTTON LOGIC (Source: visibait/valentines) ---
 const moveButton = () => {
-    // 1. Get current viewport dimensions
-    // We subtract the button size to ensure it never goes off-screen
-    const maxX = window.innerWidth - noBtn.offsetWidth;
-    const maxY = window.innerHeight - noBtn.offsetHeight;
+    // 1. Get the current screen width and height
+    var windowWidth = window.innerWidth;
+    var windowHeight = window.innerHeight;
 
-    // 2. Generate random positions
-    // Math.random() gives 0.0 to 1.0, so we multiply by max available space
-    const randomX = Math.random() * maxX;
-    const randomY = Math.random() * maxY;
+    // 2. Get the button's size
+    var btnWidth = noBtn.offsetWidth;
+    var btnHeight = noBtn.offsetHeight;
 
-    // 3. Apply the new position
-    // We switch to 'fixed' position so it is relative to the screen (viewport)
-    // This allows it to fly over any element
-    noBtn.style.position = 'fixed';
-    noBtn.style.left = `${randomX}px`;
-    noBtn.style.top = `${randomY}px`;
+    // 3. Calculate random positions
+    // We subtract the button size to ensure it never goes off screen
+    var randomX = Math.random() * (windowWidth - btnWidth);
+    var randomY = Math.random() * (windowHeight - btnHeight);
+
+    // 4. Apply new position
+    // IMPORTANT: specific logic to ensure it works on top of other elements
+    noBtn.style.position = "fixed"; // Forces it to use screen coordinates
+    noBtn.style.left = randomX + "px";
+    noBtn.style.top = randomY + "px";
 };
 
 // Trigger on hover (Desktop)
 noBtn.addEventListener('mouseover', moveButton);
 
-// Trigger on touch (Mobile) - Prevents tapping
+// Trigger on touch (Mobile)
 noBtn.addEventListener('touchstart', (e) => {
-    e.preventDefault(); 
+    e.preventDefault(); // Prevents the 'click' from happening
     moveButton();
 });
 
-// Trigger if they somehow manage to click it (Failsafe)
+// Backup click handler
 noBtn.addEventListener('click', (e) => {
     e.preventDefault(); 
     moveButton();

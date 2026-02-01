@@ -15,8 +15,7 @@
 
 body {
     font-family: 'Poppins', sans-serif;
-    /* CHANGED: 100% 100% forces the image to fill the screen exactly */
-    /* This ensures your specific resolution image is fully visible */
+    /* Forces image to fit exact screen size */
     background: url('../images/background.jpg') no-repeat center center;
     background-size: 100% 100%; 
     height: 100vh;
@@ -64,7 +63,6 @@ h1 {
     font-weight: 500;
 }
 
-/* Interest collage styling */
 .interests-collage {
     display: flex;
     flex-wrap: wrap;
@@ -99,7 +97,6 @@ h1 {
 }
 
 .interest-item.central {
-    /* CHANGED: Just size, no border/ring */
     width: 150px; 
     height: 150px;
 }
@@ -142,7 +139,7 @@ button {
     color: white;
     box-shadow: 0 5px 20px rgba(255, 107, 174, 0.4);
     z-index: 100;
-    transition: all 0.3s ease; /* Only animate the Yes button */
+    transition: all 0.3s ease;
 }
 
 #yes-btn:hover {
@@ -153,10 +150,9 @@ button {
 #no-btn {
     background-color: #e0e0e0;
     color: #777;
-    position: relative; 
-    /* CHANGED: Increased z-index massively so it never disappears behind layers */
-    z-index: 9999; 
-    /* REMOVED: transition property to prevent "disappearing" while sliding */
+    position: absolute; /* Starts absolute, JS switches to fixed */
+    /* Maximum Z-index to ensure it is ALWAYS on top */
+    z-index: 2147483647; 
 }
 
 .success-gif {

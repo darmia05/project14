@@ -1,5 +1,4 @@
 // --- CONFIGURATION ---
-// Keys verified from your screenshots
 const PUBLIC_KEY = "C8MIB_1Bo5z2thMe6";  
 const SERVICE_ID = "service_cny07mr";
 const TEMPLATE_ID = "template_awcwn6i";
@@ -13,7 +12,7 @@ const successContainer = document.getElementById('success-container');
 const yesBtn = document.getElementById('yes-btn');
 const noBtn = document.getElementById('no-btn');
 
-// --- "NO" BUTTON LOGIC ---
+// --- "NO" BUTTON LOGIC (THE SAFE ZONE FIX) ---
 const moveButton = () => {
     // 1. Get current viewport dimensions
     const viewportWidth = window.innerWidth;
@@ -23,25 +22,28 @@ const moveButton = () => {
     const btnWidth = noBtn.offsetWidth;
     const btnHeight = noBtn.offsetHeight;
 
-    // 3. Calculate Strictly Safe Boundaries
-    // We create a safety padding of 50px so it never touches the edge
-    const maxPosX = viewportWidth - btnWidth - 50;
-    const maxPosY = viewportHeight - btnHeight - 50;
+    // 3. Define the "Safe Zone"
+    // We want the button to stay away from the edges by at least 100px
+    // This calculation finds the available space in the middle of the screen
+    const minX = 80; // Keep 80px away from left
+    const maxX = viewportWidth - btnWidth - 80; // Keep 80px away from right
+    
+    const minY = 80; // Keep 80px away from top
+    const maxY = viewportHeight - btnHeight - 80; // Keep 80px away from bottom
 
-    // 4. Generate random positions within these strict bounds
-    // Math.max(0, ...) ensures we never get a negative number (off-screen left/top)
-    // If the screen is too small, it defaults to 10px (top left safe zone)
-    const newX = Math.max(10, Math.floor(Math.random() * maxPosX));
-    const newY = Math.max(10, Math.floor(Math.random() * maxPosY));
+    // Safety check: If screen is super small, just wiggle slightly
+    const safeMaxX = Math.max(minX + 10, maxX);
+    const safeMaxY = Math.max(minY + 10, maxY);
+
+    // 4. Generate Random Position within Safe Zone
+    const randomX = Math.floor(Math.random() * (safeMaxX - minX + 1)) + minX;
+    const randomY = Math.floor(Math.random() * (safeMaxY - minY + 1)) + minY;
 
     // 5. Apply new position
-    // We use 'fixed' so it is relative to the screen, not the card
+    // We use 'fixed' so it is relative to the browser window, not the card
     noBtn.style.position = 'fixed';
-    noBtn.style.left = `${newX}px`;
-    noBtn.style.top = `${newY}px`;
-    
-    // Double check visibility
-    noBtn.style.zIndex = "9999"; 
+    noBtn.style.left = `${randomX}px`;
+    noBtn.style.top = `${randomY}px`;
 };
 
 // Events to trigger movement
@@ -49,7 +51,7 @@ noBtn.addEventListener('mouseover', moveButton);
 
 // For mobile: trigger on touch
 noBtn.addEventListener('touchstart', (e) => {
-    e.preventDefault(); // Stop the click from registering
+    e.preventDefault(); 
     moveButton();
 });
 
@@ -75,7 +77,6 @@ yesBtn.addEventListener('click', () => {
             successContainer.classList.remove('hidden');
         }, function(error) {
             console.log('FAILED...', error);
-            // Even if email fails, show success screen so the moment isn't ruined
             mainContainer.classList.add('hidden');
             successContainer.classList.remove('hidden');
         });

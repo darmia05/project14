@@ -150,11 +150,12 @@ button {
 #no-btn {
     background-color: #e0e0e0;
     color: #777;
-    position: absolute; /* Starts next to Yes */
+    /* CHANGED: This fixes the overlap issue by letting it sit naturally next to Yes */
+    position: relative; 
     z-index: 9999;
     
-    /* REPO REFERENCE: Smooth transition for gliding */
-    transition: left 0.2s ease, top 0.2s ease; 
+    /* Smooth transition so you can see where it goes */
+    transition: left 0.3s ease, top 0.3s ease; 
 }
 
 .success-gif {

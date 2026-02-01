@@ -12,7 +12,7 @@ const successContainer = document.getElementById('success-container');
 const yesBtn = document.getElementById('yes-btn');
 const noBtn = document.getElementById('no-btn');
 
-// --- "NO" BUTTON LOGIC (Source: visibait/valentines) ---
+// --- "NO" BUTTON LOGIC ---
 const moveButton = () => {
     // 1. Get the current screen width and height
     var windowWidth = window.innerWidth;
@@ -23,13 +23,17 @@ const moveButton = () => {
     var btnHeight = noBtn.offsetHeight;
 
     // 3. Calculate random positions
-    // We subtract the button size to ensure it never goes off screen
-    var randomX = Math.random() * (windowWidth - btnWidth);
-    var randomY = Math.random() * (windowHeight - btnHeight);
+    // We subtract the button size AND a 50px buffer to keep it clearly visible
+    var randomX = Math.random() * (windowWidth - btnWidth - 50);
+    var randomY = Math.random() * (windowHeight - btnHeight - 50);
+
+    // Ensure it doesn't go off the top/left edge either by using Math.max
+    randomX = Math.max(10, randomX);
+    randomY = Math.max(10, randomY);
 
     // 4. Apply new position
-    // IMPORTANT: specific logic to ensure it works on top of other elements
-    noBtn.style.position = "fixed"; // Forces it to use screen coordinates
+    // We switch to 'fixed' so it moves relative to the screen
+    noBtn.style.position = "fixed"; 
     noBtn.style.left = randomX + "px";
     noBtn.style.top = randomY + "px";
 };
@@ -39,7 +43,7 @@ noBtn.addEventListener('mouseover', moveButton);
 
 // Trigger on touch (Mobile)
 noBtn.addEventListener('touchstart', (e) => {
-    e.preventDefault(); // Prevents the 'click' from happening
+    e.preventDefault(); 
     moveButton();
 });
 
